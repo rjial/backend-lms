@@ -9,6 +9,171 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql"
+  provider = "mysql"
   url      = env("DATABASE_URL")
+}
+
+model User {
+  id          Int          @id @default(autoincrement())
+  email       String       @unique
+  password    String
+  secretKey   String
+  gender      String
+  expiredAt   DateTime?
+  phone       String?
+  dot         DateTime?
+  address     String?
+  countryCode String?
+  city        String?
+  postalCode  String?
+  isAdmin     Boolean      @default(false)
+  balance     Float?
+  image       String?
+  Review      Review[]
+  Session     Session[]
+  Completion  Completion[]
+  Checkout    Checkout[]
+
+  @@map("users")
+}
+
+model Course {
+  id             Int              @id @default(autoincrement())
+  name           String
+  description    String
+  thumbnail      String?
+  video          String?
+  document       String?
+  userCount      Int
+  memberCount    Int
+  Module         Module[]
+  Quiz           Quiz[]
+  Event          Event[]
+  Review         Review[]
+  Session        Session[]
+  Assignment     Assignment[]
+  CourseCategory CourseCategory[]
+  Completion     Completion[]
+  Checkout       Checkout[]
+
+  @@map("courses")
+}
+
+model Module {
+  id          Int          @id @default(autoincrement())
+  course      Course       @relation(fields: [courseId], references: [id])
+  courseId    Int
+  name        String
+  description String
+  level       String
+  score       Int
+  price       Float
+  paymentMode String
+  Session     Session[]
+  Completion  Completion[]
+
+  @@map("modules")
+}
+
+model Quiz {
+  id          Int    @id @default(autoincrement())
+  course      Course @relation(fields: [courseId], references: [id])
+  courseId    Int
+  name        String
+  description String
+  rating      Int
+
+  @@map("quizzes")
+}
+
+model Event {
+  id          Int    @id @default(autoincrement())
+  course      Course @relation(fields: [courseId], references: [id])
+  courseId    Int
+  name        String
+  description String
+  rating      Int
+
+  @@map("events")
+}
+
+model Review {
+  id          Int    @id @default(autoincrement())
+  course      Course @relation(fields: [courseId], references: [id])
+  courseId    Int
+  user        User   @relation(fields: [userId], references: [id])
+  userId      Int
+  rating      Int
+  description String
+
+  @@map("reviews")
+}
+
+model Session {
+  id         Int       @id @default(autoincrement())
+  user       User      @relation(fields: [userId], references: [id])
+  userId     Int
+  course     Course    @relation(fields: [courseId], references: [id])
+  courseId   Int
+  module     Module    @relation(fields: [moduleId], references: [id])
+  moduleId   Int
+  startedAt  DateTime
+  finishedAt DateTime?
+  score      Int?
+
+  @@map("sessions")
+}
+
+model Assignment {
+  id          Int     @id @default(autoincrement())
+  course      Course  @relation(fields: [courseId], references: [id])
+  courseId    Int
+  name        String
+  description String
+  document    String?
+
+  @@map("assignments")
+}
+
+model Category {
+  id             Int              @id @default(autoincrement())
+  name           String
+  CourseCategory CourseCategory[]
+
+  @@map("categories")
+}
+
+model CourseCategory {
+  id         Int      @id @default(autoincrement())
+  course     Course   @relation(fields: [courseId], references: [id])
+  courseId   Int
+  category   Category @relation(fields: [categoryId], references: [id])
+  categoryId Int
+
+  @@map("course_categories")
+}
+
+model Completion {
+  id          Int      @id @default(autoincrement())
+  user        User     @relation(fields: [userId], references: [id])
+  userId      Int
+  course      Course   @relation(fields: [courseId], references: [id])
+  courseId    Int
+  module      Module   @relation(fields: [moduleId], references: [id])
+  moduleId    Int
+  completedAt DateTime
+
+  @@map("completions")
+}
+
+model Checkout {
+  id        Int       @id @default(autoincrement())
+  user      User      @relation(fields: [userId], references: [id])
+  userId    Int
+  course    Course    @relation(fields: [courseId], references: [id])
+  courseId  Int
+  createdAt DateTime
+  updatedAt DateTime?
+
+  @@map("checkouts")
 }
