@@ -3,6 +3,7 @@ CREATE TABLE `users` (
     `id` INTEGER NOT NULL AUTO_INCREMENT,
     `email` VARCHAR(191) NOT NULL,
     `password` VARCHAR(191) NOT NULL,
+    `name` VARCHAR(191) NOT NULL,
     `secretKey` VARCHAR(191) NOT NULL,
     `gender` VARCHAR(191) NOT NULL,
     `expiredAt` DATETIME(3) NULL,
