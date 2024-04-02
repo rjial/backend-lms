@@ -19,7 +19,7 @@ export class RegisterDto {
 
     @IsString()
     @ApiProperty()
-    name: string;
+    nama: string;
 
     @IsString()
     @ApiProperty()
@@ -53,12 +53,12 @@ export class RegisterDto {
     @ApiProperty()
     image?: string;
 
-    constructor(email: string, password: string, gender: string, name: string, phone: string, dot: string, address: string, countryCode: string, city: string, postalCode: string, balance: number, image: string) {
+    constructor(email: string, password: string, gender: string, nama: string, phone: string, dot: string, address: string, countryCode: string, city: string, postalCode: string, balance: number, image: string) {
 
         this.email = email;
         this.password = password;
         this.gender = gender;
-        this.name = name;
+        this.nama = nama;
         this.phone = phone;
         this.dot = dot;
         this.address = address;

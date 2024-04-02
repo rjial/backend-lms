@@ -1,4 +1,4 @@
-import {IsBoolean, IsEmail, IsNotEmpty, IsNumber, IsString, MinLength} from 'class-validator';
+import {IsBoolean, IsDateString, IsEmail, IsNotEmpty, IsNumber, IsString, MinLength} from 'class-validator';
 
 export class CreateUserDto {
     @IsEmail()
@@ -13,12 +13,12 @@ export class CreateUserDto {
     gender?: string;
 
     @IsString()
-    name: string;
+    namee: string;
 
     @IsString()
     phone?: string;
 
-    @IsString()
+    @IsDateString()
     dot?: string;
 
     @IsString()
@@ -39,11 +39,11 @@ export class CreateUserDto {
     @IsString()
     image?: string;
 
-    constructor(email: string, password: string, gender: string, name: string, phone: string, dot: string, address: string, countryCode: string, city: string, postalCode: string, balance: number, image: string) {
+    constructor(email: string, password: string, gender: string, namee: string, phone: string, dot: string, address: string, countryCode: string, city: string, postalCode: string, balance: number, image: string) {
         this.email = email;
         this.password = password;
         this.gender = gender;
-        this.name = name;
+        this.namee = namee;
         this.phone = phone;
         this.dot = dot;
         this.address = address;
@@ -52,5 +52,6 @@ export class CreateUserDto {
         this.postalCode = postalCode;
         this.balance = balance;
         this.image = image;
+        console.log(this)
     }
 }

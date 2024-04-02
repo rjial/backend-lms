@@ -19,14 +19,14 @@ export class UserService {
 
         return this.prismaService.user.create({
             data: {
-                name: user.name,
+                name: user.namee,
                 email: user.email,
                 password: hashPassword,
                 secretKey: "",
                 gender: user.gender == null ? "" : user.gender,
                 expiredAt: new Date(),
                 phone: user.phone,
-                dot: user.dot,
+                dot: (new Date(user.dot as string)).toISOString(),
                 address: user.address,
                 countryCode: user.countryCode,
                 city: user.city,

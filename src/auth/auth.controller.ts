@@ -19,8 +19,9 @@ export class AuthController {
 
     @Post("register")
     @ApiOkResponse({type: RegisterEntity})
-    register(@Body() {email, password, name, balance, gender, city, dot, countryCode, postalCode, address, phone, image}: RegisterDto) {
-        console.log(email, password, name, balance, gender, city, dot, countryCode, postalCode, address, phone, image)
-        // return this.authService.register(email, password, name, balance, gender, city, dot, countryCode, postalCode, address, phone, image)
+    register(@Body() data: RegisterDto) {
+        console.log(data)
+        const {email, password, nama, balance, gender, city, dot, countryCode, postalCode, address, phone, image} = data
+        return this.authService.register(email, password, nama, balance as number, gender as string, city as string, dot as string, countryCode as string, postalCode as string, address as string, phone as string, image as string)
     }
 }

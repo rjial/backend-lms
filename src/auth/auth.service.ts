@@ -5,6 +5,7 @@ import {PrismaService} from "../prisma/prisma.service";
 import * as bcrypt from "bcrypt";
 import {UserService} from "../user/user.service";
 import {CreateUserDto} from "../user/dto/user-create.dto";
+import {jwtSecret} from "../app.module";
 
 @Injectable()
 export class AuthService {
@@ -24,11 +25,11 @@ export class AuthService {
         }
 
         return {
-            accessToken: this.jwt.sign({userId: user.id, email: user.email})
+            accessToken: this.jwt.sign({userId: user.id, email: user.email}, { secret: jwtSecret})
         }
     }
-    async register(email, password, name, balance, gender, city, dot, countryCode, postalCode, address, phone, image) {
-        const createdUser = await this.userService.create(new CreateUserDto(email, password, name, balance, gender, city, dot, countryCode, postalCode, address, phone, image))
+    async register(email: string, password: string, namee: string, balance: number, gender: string, city: string, dot: string, countryCode: string, postalCode: string, address: string, phone: string, image: string) {
+        const createdUser = await this.userService.create(new CreateUserDto(email, password, gender, namee, phone, dot, address, countryCode, city, postalCode, balance, image))
 
         if (!(createdUser.id > 0)) {
             throw new HttpException("Permintaan error", 500)
