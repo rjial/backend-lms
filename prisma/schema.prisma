@@ -14,124 +14,167 @@ datasource db {
 }
 
 model User {
-  id          Int          @id @default(autoincrement())
-  email       String       @unique
-  password    String
-  name        String
-  secretKey   String
-  gender      String
-  expiredAt   DateTime?
-  phone       String?
-  dot         DateTime?
-  address     String?
-  countryCode String?
-  city        String?
-  postalCode  String?
-  isAdmin     Boolean      @default(false)
-  balance     Float?
-  image       String?
-  Review      Review[]
-  Session     Session[]
-  Completion  Completion[]
-  Checkout    Checkout[]
+  id                Int                 @id @default(autoincrement())
+  email             String              @unique
+  password          String
+  name              String
+  username          String
+  secretKey         String
+  gender            String
+  expiredAt         DateTime?
+  phone             String?
+  dob               DateTime?
+  address           String?
+  countryCode       String?
+  city              String?
+  postalCode        String?
+  isAdmin           Boolean             @default(false)
+  balance           Float?
+  image             String?
+  verify            Boolean
+  admin             Boolean
+  created_at        DateTime
+  updated_at        DateTime?
+  deleted_at        DateTime?
+  Review            Review[]
+  Session           Session[]
+  Checkout          Checkout[]
+  Course            Course[]
+  Event             Event[]
+  Assignment        Assignment[]
+  CompletionCourses CompletionCourses[]
+  CompletionModules CompletionModules[]
 
   @@map("users")
 }
 
 model Course {
-  id             Int              @id @default(autoincrement())
-  name           String
-  description    String
-  thumbnail      String?
-  video          String?
-  document       String?
-  userCount      Int
-  memberCount    Int
-  Module         Module[]
-  Quiz           Quiz[]
-  Event          Event[]
-  Review         Review[]
-  Session        Session[]
-  Assignment     Assignment[]
-  CourseCategory CourseCategory[]
-  Completion     Completion[]
-  Checkout       Checkout[]
+  id                Int                 @id @default(autoincrement())
+  name              String
+  description       String
+  thumbnail         String?
+  video             String?
+  document          String?
+  userCount         Int
+  memberCount       Int
+  finished          String
+  rating5           Int
+  rating4           Int
+  rating3           Int
+  rating2           Int
+  rating1           Int
+  price             String
+  level             String
+  user              User                @relation(fields: [user_id], references: [id])
+  user_id           Int
+  created_at        DateTime
+  updated_at        DateTime?
+  deleted_at        DateTime?
+  Module            Module[]
+  Review            Review[]
+  Session           Session[]
+  Assignment        Assignment[]
+  CourseCategory    CourseCategory[]
+  Checkout          Checkout[]
+  CompletionCourses CompletionCourses[]
+  CompletionModules CompletionModules[]
 
   @@map("courses")
 }
 
 model Module {
-  id          Int          @id @default(autoincrement())
-  course      Course       @relation(fields: [courseId], references: [id])
-  courseId    Int
-  name        String
-  description String
-  level       String
-  score       Int
-  price       Float
-  paymentMode String
-  Session     Session[]
-  Completion  Completion[]
+  id                Int                 @id @default(autoincrement())
+  course            Course              @relation(fields: [courseId], references: [id])
+  courseId          Int
+  name              String
+  description       String
+  video             String
+  document          String
+  thumbnail         String
+  paymentMode       String
+  created_at        DateTime
+  updated_at        DateTime?
+  deleted_at        DateTime?
+  Session           Session[]
+  Quiz              Quiz[]
+  CompletionModules CompletionModules[]
 
   @@map("modules")
 }
 
 model Quiz {
-  id          Int    @id @default(autoincrement())
-  course      Course @relation(fields: [courseId], references: [id])
-  courseId    Int
-  name        String
-  description String
-  rating      Int
+  id         Int       @id @default(autoincrement())
+  data       String
+  module_id  Int
+  module     Module    @relation(fields: [module_id], references: [id])
+  created_at DateTime
+  updated_at DateTime?
+  deleted_at DateTime?
 
   @@map("quizzes")
 }
 
 model Event {
-  id          Int    @id @default(autoincrement())
-  course      Course @relation(fields: [courseId], references: [id])
-  courseId    Int
+  id          Int       @id @default(autoincrement())
+  user        User      @relation(fields: [user_id], references: [id])
+  user_id     Int
   name        String
   description String
-  rating      Int
+  created_at  DateTime
+  updated_at  DateTime?
+  deleted_at  DateTime?
 
   @@map("events")
 }
 
 model Review {
-  id          Int    @id @default(autoincrement())
-  course      Course @relation(fields: [courseId], references: [id])
+  id          Int       @id @default(autoincrement())
+  course      Course    @relation(fields: [courseId], references: [id])
   courseId    Int
-  user        User   @relation(fields: [userId], references: [id])
+  user        User      @relation(fields: [userId], references: [id])
   userId      Int
   rating      Int
   description String
+  created_at  DateTime
+  updated_at  DateTime?
+  deleted_at  DateTime?
 
   @@map("reviews")
 }
 
 model Session {
-  id         Int       @id @default(autoincrement())
-  user       User      @relation(fields: [userId], references: [id])
-  userId     Int
-  course     Course    @relation(fields: [courseId], references: [id])
-  courseId   Int
-  module     Module    @relation(fields: [moduleId], references: [id])
-  moduleId   Int
-  startedAt  DateTime
-  finishedAt DateTime?
-  score      Int?
+  id            Int       @id @default(autoincrement())
+  user          User      @relation(fields: [userId], references: [id])
+  userId        Int
+  score         Int?
+  clientIp      String
+  userAgent     String
+  token         String
+  secretKey     String
+  expired       DateTime?
+  lastActivated DateTime?
+  created_at    DateTime
+  updated_at    DateTime?
+  deleted_at    DateTime?
+  Course        Course?   @relation(fields: [courseId], references: [id])
+  courseId      Int?
+  Module        Module?   @relation(fields: [moduleId], references: [id])
+  moduleId      Int?
 
   @@map("sessions")
 }
 
 model Assignment {
-  id          Int     @id @default(autoincrement())
-  course      Course  @relation(fields: [courseId], references: [id])
-  courseId    Int
-  name        String
-  description String
-  document    String?
+  id         Int       @id @default(autoincrement())
+  course     Course    @relation(fields: [courseId], references: [id])
+  courseId   Int
+  user       User      @relation(fields: [user_id], references: [id])
+  user_id    Int
+  document   String?
+  video      String?
+  created_at DateTime
+  updated_at DateTime?
+  deleted_at DateTime?
 
   @@map("assignments")
 }
@@ -139,32 +182,53 @@ model Assignment {
 model Category {
   id             Int              @id @default(autoincrement())
   name           String
+  description    String
+  thumbnail      String
   CourseCategory CourseCategory[]
+  created_at     DateTime
+  updated_at     DateTime?
+  deleted_at     DateTime?
 
   @@map("categories")
 }
 
 model CourseCategory {
-  id         Int      @id @default(autoincrement())
-  course     Course   @relation(fields: [courseId], references: [id])
+  id         Int       @id @default(autoincrement())
+  course     Course    @relation(fields: [courseId], references: [id])
   courseId   Int
-  category   Category @relation(fields: [categoryId], references: [id])
+  category   Category  @relation(fields: [categoryId], references: [id])
   categoryId Int
+  created_at DateTime
+  updated_at DateTime?
+  deleted_at DateTime?
 
   @@map("course_categories")
 }
 
-model Completion {
-  id          Int      @id @default(autoincrement())
-  user        User     @relation(fields: [userId], references: [id])
-  userId      Int
-  course      Course   @relation(fields: [courseId], references: [id])
-  courseId    Int
-  module      Module   @relation(fields: [moduleId], references: [id])
-  moduleId    Int
-  completedAt DateTime
+model CompletionCourses {
+  id         Int       @id @default(autoincrement())
+  created_at DateTime
+  updated_at DateTime?
+  deleted_at DateTime?
+  user       User      @relation(fields: [userId], references: [id])
+  userId     Int
+  course     Course    @relation(fields: [courseId], references: [id])
+  courseId   Int
+  score      BigInt
+}
 
-  @@map("completions")
+model CompletionModules {
+  id         Int       @id @default(autoincrement())
+  created_at DateTime
+  updated_at DateTime?
+  deleted_at DateTime?
+  user       User      @relation(fields: [userId], references: [id])
+  userId     Int
+  course     Course    @relation(fields: [courseId], references: [id])
+  courseId   Int
+  module     Module    @relation(fields: [moduleId], references: [id])
+  moduleId   Int
+  score      BigInt
 }
 
 model Checkout {
@@ -173,8 +237,22 @@ model Checkout {
   userId    Int
   course    Course    @relation(fields: [courseId], references: [id])
   courseId  Int
+  payment_method  String
+  verify    Boolean
   createdAt DateTime
   updatedAt DateTime?
+  deleted_at DateTime?
 
   @@map("checkouts")
+}
+
+model Banner {
+  id        Int       @id @default(autoincrement())
+  created_at DateTime
+  updated_at DateTime?
+  deleted_at DateTime?
+  user_id   Int
+  course_id Int
+  video     Int
+  document  Int
 }
