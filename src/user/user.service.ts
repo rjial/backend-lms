@@ -17,23 +17,48 @@ export class UserService {
             10
         )
 
+        // return this.prismaService.user.create({
+        //     data: {
+        //         name: user.namee,
+        //         email: user.email,
+        //         password: hashPassword,
+        //         secretKey: "",
+        //         gender: user.gender == null ? "" : user.gender,
+        //         expiredAt: new Date(),
+        //         phone: user.phone,
+        //         dob: (new Date(user.dot as string)).toISOString(),
+        //         address: user.address,
+        //         countryCode: user.countryCode,
+        //         city: user.city,
+        //         postalCode: user.postalCode,
+        //         isAdmin: false,
+        //         balance: 0,
+        //         image: "lorem ipsum"
+        //     }
+        // })
         return this.prismaService.user.create({
             data: {
                 name: user.namee,
                 email: user.email,
                 password: hashPassword,
+                username: user.username,
                 secretKey: "",
                 gender: user.gender == null ? "" : user.gender,
                 expiredAt: new Date(),
                 phone: user.phone,
-                dot: (new Date(user.dot as string)).toISOString(),
+                dob: (new Date(user.dot as string)).toISOString(),
                 address: user.address,
                 countryCode: user.countryCode,
                 city: user.city,
                 postalCode: user.postalCode,
                 isAdmin: false,
                 balance: 0,
-                image: "lorem ipsum"
+                image: "lorem ipsum",
+                verify: true,
+                admin: false,
+                created_at: new Date(),
+                updated_at: new Date(),
+                deleted_at: new Date()
             }
         })
     }

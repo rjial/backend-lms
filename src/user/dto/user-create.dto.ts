@@ -9,6 +9,10 @@ export class CreateUserDto {
     @MinLength(8)
     password: string;
 
+    @IsNotEmpty()
+    @IsString()
+    username: string;
+
     @IsString()
     gender?: string;
 
@@ -39,12 +43,13 @@ export class CreateUserDto {
     @IsString()
     image?: string;
 
-    constructor(email: string, password: string, gender: string, namee: string, phone: string, dot: string, address: string, countryCode: string, city: string, postalCode: string, balance: number, image: string) {
+    constructor(email: string, password: string, gender: string, username: string, namee: string, phone: string, dot: string, address: string, countryCode: string, city: string, postalCode: string, balance: number, image: string) {
         this.email = email;
         this.password = password;
         this.gender = gender;
         this.namee = namee;
         this.phone = phone;
+        this.username = username;
         this.dot = dot;
         this.address = address;
         this.countryCode = countryCode;

@@ -21,6 +21,12 @@ export class RegisterDto {
     @ApiProperty()
     nama: string;
 
+
+    @IsNotEmpty()
+    @IsString()
+    @ApiProperty()
+    username: string;
+
     @IsString()
     @ApiProperty()
     phone?: string;
@@ -53,7 +59,7 @@ export class RegisterDto {
     @ApiProperty()
     image?: string;
 
-    constructor(email: string, password: string, gender: string, nama: string, phone: string, dot: string, address: string, countryCode: string, city: string, postalCode: string, balance: number, image: string) {
+    constructor(email: string, password: string, gender: string, username: string, nama: string, phone: string, dot: string, address: string, countryCode: string, city: string, postalCode: string, balance: number, image: string) {
 
         this.email = email;
         this.password = password;
@@ -62,6 +68,7 @@ export class RegisterDto {
         this.phone = phone;
         this.dot = dot;
         this.address = address;
+        this.username = username;
         this.countryCode = countryCode;
         this.city = city;
         this.postalCode = postalCode;

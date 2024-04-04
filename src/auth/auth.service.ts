@@ -28,8 +28,8 @@ export class AuthService {
             accessToken: this.jwt.sign({userId: user.id, email: user.email}, { secret: jwtSecret})
         }
     }
-    async register(email: string, password: string, namee: string, balance: number, gender: string, city: string, dot: string, countryCode: string, postalCode: string, address: string, phone: string, image: string) {
-        const createdUser = await this.userService.create(new CreateUserDto(email, password, gender, namee, phone, dot, address, countryCode, city, postalCode, balance, image))
+    async register(email: string, password: string, namee: string, balance: number, username: string, gender: string, city: string, dot: string, countryCode: string, postalCode: string, address: string, phone: string, image: string) {
+        const createdUser = await this.userService.create(new CreateUserDto(email, password, gender, username, namee, phone, dot, address, countryCode, city, postalCode, balance, image))
 
         if (!(createdUser.id > 0)) {
             throw new HttpException("Permintaan error", 500)
