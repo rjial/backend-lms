@@ -1,26 +1,46 @@
-export class CourseEntity {
-    constructor(
-        id: number,
-        name: string,
-        description: string,
-        thumbnail: string,
-        video: string,
-        document: string,
-        userCount: number,
-        memberCount: number,
-        finished: string,
-        rating5: number,
-        rating4: number,
-        rating3: number,
-        rating2: number,
-        rating1: number,
-        price: string,
-        level: string,
-        user_id: number,
-        created_at: Date,
-        updated_at?: Date,
-        deleted_at?: Date) {
+import { ApiProperty } from "@nestjs/swagger"
 
-    }
+export class CourseEntity {
+
+    @ApiProperty()
+    id: number
+    @ApiProperty()
+    name: string
+    @ApiProperty()
+    description: string
+    @ApiProperty()
+    thumbnail: string
+    @ApiProperty()
+    video: string
+    @ApiProperty()
+    document: string
+    @ApiProperty()
+    userCount: number
+    @ApiProperty()
+    memberCount: number
+    @ApiProperty()
+    finished: string
+    @ApiProperty()
+    rating5: number
+    @ApiProperty()
+    rating4: number
+    @ApiProperty()
+    rating3: number
+    @ApiProperty()
+    rating2: number
+    @ApiProperty()
+    rating1: number
+    @ApiProperty()
+    price: string
+    @ApiProperty()
+    level: string
+    @ApiProperty()
+    user_id: number
+    @ApiProperty()
+    created_at: Date
+    @ApiProperty()
+    updated_at?: Date
+    @ApiProperty()
+    deleted_at?: Date
 
 }

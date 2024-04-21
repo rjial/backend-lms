@@ -7,34 +7,59 @@ import { CourseEntity } from './entity/course.entity';
 export class CourseService {
     constructor(private prisma: PrismaService) {}
     async findAllCourse() {
-        return this.prisma.course.findMany();
+        const data = await this.prisma.course.findMany()
+        return data.map<CourseEntity>(item => {
+            return {
+                id: item.id,
+                name: item.name,
+                description: item.description,
+                thumbnail: item.thumbnail as string,
+                video: item.video as string,
+                document: item.document as string,
+                userCount: item.userCount,
+                memberCount: item.memberCount,
+                finished: item.finished,
+                rating5: item.rating5,
+                rating4: item.rating4,
+                rating3: item.rating3,
+                rating2: item.rating2,
+                rating1: item.rating1,
+                price: item.price,
+                level: item.level,
+                user_id: item.user_id,
+                created_at: item.created_at,
+                updated_at: item.updated_at ?? undefined,
+                deleted_at: item.deleted_at ?? undefined
+            }
+        });
     }
 
     async findCourse(id: number) {
-        const item = await this.prisma.course.findUnique({where: {id: id}})
+        const courseId: number = Number(id)
+        const item = await this.prisma.course.findUnique({where: {id: courseId}})
         if (item == null) throw new NotFoundException("Course Not Found!")
-        return new CourseEntity(
-            item.id,
-            item.name,
-            item.description,
-            item.thumbnail as string,
-            item.video as string,
-            item.document as string,
-            item.userCount,
-            item.memberCount,
-            item.finished,
-            item.rating5,
-            item.rating4,
-            item.rating3,
-            item.rating2,
-            item.rating1,
-            item.price,
-            item.level,
-            item.user_id,
-            item.created_at,
-            item.updated_at ?? undefined,
-            item.deleted_at ?? undefined
-        )
+        return {
+            id: item.id,
+            name: item.name,
+            description: item.description,
+            thumbnail: item.thumbnail as string,
+            video: item.video as string,
+            document: item.document as string,
+            userCount: item.userCount,
+            memberCount: item.memberCount,
+            finished: item.finished,
+            rating5: item.rating5,
+            rating4: item.rating4,
+            rating3: item.rating3,
+            rating2: item.rating2,
+            rating1: item.rating1,
+            price: item.price,
+            level: item.level,
+            user_id: item.user_id,
+            created_at: item.created_at,
+            updated_at: item.updated_at ?? undefined,
+            deleted_at: item.deleted_at ?? undefined
+        } as CourseEntity
     }
 
     async getReviewCourse(courseId: number) {

@@ -15,10 +15,15 @@ export class CourseController {
     @ApiOkResponse({type: CourseEntity, isArray: true})
     @ApiBearerAuth()
     async findAllCourse() {
-        const data = await this.courseService.findAllCourse()
-        return data.map(item => {
-            return new CourseEntity(item.id, item.name, item.description, item.thumbnail as string, item.video as string, item.document as string, item.userCount, item.memberCount, item.finished, item.rating5, item.rating4, item.rating3, item.rating2, item.rating1, item.price, item.level, item.user_id, item.created_at, item.updated_at ?? undefined, item.deleted_at as Date)
-        })
+        return this.courseService.findAllCourse()
+    }
+
+    @Get(":id")
+    @UseGuards(JwtAuthGuard)
+    @ApiOkResponse({type: CourseEntity, isArray: false})
+    @ApiBearerAuth()
+    async findCourse(@Param("id") courseId: number) {
+        return this.courseService.findCourse(courseId)
     }
 
     @Get(":id/review")
