@@ -1,6 +1,5 @@
-export class CourseEntity {
+export class CreateCourseDTO {
     constructor(
-        id: number,
         name: string,
         description: string,
         thumbnail: string,
@@ -17,10 +16,8 @@ export class CourseEntity {
         price: string,
         level: string,
         user_id: number,
-        created_at: Date,
-        updated_at?: Date,
-        deleted_at?: Date) {
-
-    }
-
+        created_at: string,
+        updated_at: string,
+        deleted_at: string,
+    ){}
 }

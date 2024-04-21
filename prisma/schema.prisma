@@ -232,27 +232,25 @@ model CompletionModules {
 }
 
 model Checkout {
-  id        Int       @id @default(autoincrement())
-  user      User      @relation(fields: [userId], references: [id])
-  userId    Int
-  course    Course    @relation(fields: [courseId], references: [id])
-  courseId  Int
-  payment_method  String
-  verify    Boolean
-  createdAt DateTime
-  updatedAt DateTime?
-  deleted_at DateTime?
+  id             Int       @id @default(autoincrement())
+  user           User      @relation(fields: [userId], references: [id])
+  userId         Int
+  course         Course    @relation(fields: [courseId], references: [id])
+  courseId       Int
+  payment_method String
+  verify         Boolean
+  createdAt      DateTime
+  updatedAt      DateTime?
+  deleted_at     DateTime?
 
   @@map("checkouts")
 }
 
 model Banner {
-  id        Int       @id @default(autoincrement())
+  id         Int       @id @default(autoincrement())
   created_at DateTime
   updated_at DateTime?
   deleted_at DateTime?
-  user_id   Int
-  course_id Int
-  video     Int
-  document  Int
+  alt        String
+  src        String
 }
