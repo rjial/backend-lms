@@ -4,6 +4,7 @@ import { Category } from './entity/category.entity';
 import { CourseService } from 'src/course/course.service';
 import { CourseCategory } from './entity/coursecategory.entity';
 import { CreateCourseDTO } from 'src/course/dto/create-course.dto';
+import { CreateCategoryDTO } from './dto/create-category.dto';
 
 @Injectable()
 export class CategoryService {
@@ -38,6 +39,12 @@ export class CategoryService {
     } as Category
   }
 
+  async createCategory(data: CreateCategoryDTO) {
+    return this.prisma.category.create({
+      data: data
+    })
+  }
+
   async findCourseFromCategory(categoryId: number) {
     const data = await this.prisma.courseCategory.findMany(
       {
@@ -61,7 +68,7 @@ export class CategoryService {
   }
 
   async getCoursesFromCategory(categoryId: number) {
-    return this.prisma.courseCategory.findMany({where: {categoryId: Number(categoryId)}})
+    return this.prisma.courseCategory.findMany({where: {categoryId: Number(categoryId)}, relationLoadStrategy: "query", include: {course: true}})
   }
 
   async createCourseFromCategory(categoryId:number, data: CreateCourseDTO) {

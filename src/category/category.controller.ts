@@ -6,6 +6,7 @@ import { ApiOkResponse, ApiBearerAuth, getSchemaPath, ApiExtraModels } from '@ne
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 import { CourseEntity } from 'src/course/entity/course.entity';
 import { CreateCourseDTO } from 'src/course/dto/create-course.dto';
+import { CreateCategoryDTO } from './dto/create-category.dto';
 
 @Controller('category')
 export class CategoryController {
@@ -27,6 +28,14 @@ export class CategoryController {
   @ApiBearerAuth()
   async findOneCategory(@Param("id") categoryId: number) {
     return await this.categoryService.findOneCategory(categoryId)
+  }
+
+  @Post("")
+  @UseGuards(JwtAuthGuard)
+  @ApiOkResponse({type: CourseEntity, isArray: false})
+  @ApiBearerAuth()
+  async createCategory(@Body() data: CreateCategoryDTO) {
+    return await this.categoryService.createCategory(data)
   }
 
   @Post(":id/course")
