@@ -2,6 +2,7 @@ import {Injectable, NotFoundException} from '@nestjs/common';
 import {PrismaService} from "../prisma/prisma.service";
 import { ReviewCourse } from './entity/review-course.entity';
 import { CourseEntity } from './entity/course.entity';
+import { Lesson } from 'src/lesson/entities/lesson.entity';
 
 @Injectable()
 export class CourseService {
@@ -65,5 +66,18 @@ export class CourseService {
     async getReviewCourse(courseId: number) {
         const data = await this.prisma.review.findMany({where: {courseId: courseId}})
         return data.map(item => new ReviewCourse(item.id, item.courseId, item.userId, item.description, item.rating))
+    }
+
+    async getLessonsFromCourse(courseId: number) {
+        const data = await this.prisma.lesson.findMany({where: {courseId: Number(courseId)}})
+        return data.map(item => new Lesson(
+            item.courseId,
+            item.name,
+            item.description,
+            item.video,
+            item.document,
+            item.thumbnail,
+            item.created_at.toISOString()
+        ))
     }
 }

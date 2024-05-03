@@ -44,7 +44,7 @@ model User {
   Event             Event[]
   Assignment        Assignment[]
   CompletionCourses CompletionCourses[]
-  CompletionModules CompletionModules[]
+  CompletionLessons CompletionLessons[]
 
   @@map("users")
 }
@@ -71,14 +71,14 @@ model Course {
   created_at        DateTime            @default(now())
   updated_at        DateTime?
   deleted_at        DateTime?
-  Module            Lesson[]
+  Lesson            Lesson[]
   Review            Review[]
   Session           Session[]
   Assignment        Assignment[]
   CourseCategory    CourseCategory[]
   Checkout          Checkout[]
   CompletionCourses CompletionCourses[]
-  CompletionModules CompletionModules[]
+  CompletionLessons CompletionLessons[]
 
   @@map("courses")
 }
@@ -92,15 +92,14 @@ model Lesson {
   video             String
   document          String
   thumbnail         String
-  paymentMode       String
   created_at        DateTime            @default(now())
   updated_at        DateTime?
   deleted_at        DateTime?
   Session           Session[]
   Quiz              Quiz[]
-  CompletionModules CompletionModules[]
+  CompletionLessons CompletionLessons[]
 
-  @@map("modules")
+  @@map("lessons")
 }
 
 model Quiz {
@@ -159,7 +158,7 @@ model Session {
   deleted_at    DateTime?
   Course        Course?   @relation(fields: [courseId], references: [id])
   courseId      Int?
-  Module        Lesson?   @relation(fields: [lessonId], references: [id])
+  Lesson        Lesson?   @relation(fields: [lessonId], references: [id])
   lessonId      Int?
 
   @@map("sessions")
@@ -218,7 +217,7 @@ model CompletionCourses {
   score      BigInt
 }
 
-model CompletionModules {
+model CompletionLessons {
   id         Int       @id @default(autoincrement())
   created_at DateTime           @default(now())
   updated_at DateTime?

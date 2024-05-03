@@ -19,7 +19,7 @@ CREATE TABLE `users` (
     `image` VARCHAR(191) NULL,
     `verify` BOOLEAN NOT NULL,
     `admin` BOOLEAN NOT NULL,
-    `created_at` DATETIME(3) NOT NULL,
+    `created_at` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
     `updated_at` DATETIME(3) NULL,
     `deleted_at` DATETIME(3) NULL,
 
@@ -46,7 +46,7 @@ CREATE TABLE `courses` (
     `price` VARCHAR(191) NOT NULL,
     `level` VARCHAR(191) NOT NULL,
     `user_id` INTEGER NOT NULL,
-    `created_at` DATETIME(3) NOT NULL,
+    `created_at` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
     `updated_at` DATETIME(3) NULL,
     `deleted_at` DATETIME(3) NULL,
 
@@ -62,8 +62,7 @@ CREATE TABLE `modules` (
     `video` VARCHAR(191) NOT NULL,
     `document` VARCHAR(191) NOT NULL,
     `thumbnail` VARCHAR(191) NOT NULL,
-    `paymentMode` VARCHAR(191) NOT NULL,
-    `created_at` DATETIME(3) NOT NULL,
+    `created_at` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
     `updated_at` DATETIME(3) NULL,
     `deleted_at` DATETIME(3) NULL,
 
@@ -75,7 +74,7 @@ CREATE TABLE `quizzes` (
     `id` INTEGER NOT NULL AUTO_INCREMENT,
     `data` VARCHAR(191) NOT NULL,
     `module_id` INTEGER NOT NULL,
-    `created_at` DATETIME(3) NOT NULL,
+    `created_at` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
     `updated_at` DATETIME(3) NULL,
     `deleted_at` DATETIME(3) NULL,
 
@@ -88,7 +87,7 @@ CREATE TABLE `events` (
     `user_id` INTEGER NOT NULL,
     `name` VARCHAR(191) NOT NULL,
     `description` VARCHAR(191) NOT NULL,
-    `created_at` DATETIME(3) NOT NULL,
+    `created_at` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
     `updated_at` DATETIME(3) NULL,
     `deleted_at` DATETIME(3) NULL,
 
@@ -102,7 +101,7 @@ CREATE TABLE `reviews` (
     `userId` INTEGER NOT NULL,
     `rating` INTEGER NOT NULL,
     `description` VARCHAR(191) NOT NULL,
-    `created_at` DATETIME(3) NOT NULL,
+    `created_at` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
     `updated_at` DATETIME(3) NULL,
     `deleted_at` DATETIME(3) NULL,
 
@@ -120,11 +119,11 @@ CREATE TABLE `sessions` (
     `secretKey` VARCHAR(191) NOT NULL,
     `expired` DATETIME(3) NULL,
     `lastActivated` DATETIME(3) NULL,
-    `created_at` DATETIME(3) NOT NULL,
+    `created_at` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
     `updated_at` DATETIME(3) NULL,
     `deleted_at` DATETIME(3) NULL,
     `courseId` INTEGER NULL,
-    `moduleId` INTEGER NULL,
+    `lessonId` INTEGER NULL,
 
     PRIMARY KEY (`id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
@@ -136,7 +135,7 @@ CREATE TABLE `assignments` (
     `user_id` INTEGER NOT NULL,
     `document` VARCHAR(191) NULL,
     `video` VARCHAR(191) NULL,
-    `created_at` DATETIME(3) NOT NULL,
+    `created_at` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
     `updated_at` DATETIME(3) NULL,
     `deleted_at` DATETIME(3) NULL,
 
@@ -149,7 +148,7 @@ CREATE TABLE `categories` (
     `name` VARCHAR(191) NOT NULL,
     `description` VARCHAR(191) NOT NULL,
     `thumbnail` VARCHAR(191) NOT NULL,
-    `created_at` DATETIME(3) NOT NULL,
+    `created_at` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
     `updated_at` DATETIME(3) NULL,
     `deleted_at` DATETIME(3) NULL,
 
@@ -161,7 +160,7 @@ CREATE TABLE `course_categories` (
     `id` INTEGER NOT NULL AUTO_INCREMENT,
     `courseId` INTEGER NOT NULL,
     `categoryId` INTEGER NOT NULL,
-    `created_at` DATETIME(3) NOT NULL,
+    `created_at` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
     `updated_at` DATETIME(3) NULL,
     `deleted_at` DATETIME(3) NULL,
 
@@ -171,7 +170,7 @@ CREATE TABLE `course_categories` (
 -- CreateTable
 CREATE TABLE `CompletionCourses` (
     `id` INTEGER NOT NULL AUTO_INCREMENT,
-    `created_at` DATETIME(3) NOT NULL,
+    `created_at` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
     `updated_at` DATETIME(3) NULL,
     `deleted_at` DATETIME(3) NULL,
     `userId` INTEGER NOT NULL,
@@ -182,14 +181,14 @@ CREATE TABLE `CompletionCourses` (
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 -- CreateTable
-CREATE TABLE `CompletionModules` (
+CREATE TABLE `CompletionLessons` (
     `id` INTEGER NOT NULL AUTO_INCREMENT,
-    `created_at` DATETIME(3) NOT NULL,
+    `created_at` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
     `updated_at` DATETIME(3) NULL,
     `deleted_at` DATETIME(3) NULL,
     `userId` INTEGER NOT NULL,
     `courseId` INTEGER NOT NULL,
-    `moduleId` INTEGER NOT NULL,
+    `lessonId` INTEGER NOT NULL,
     `score` BIGINT NOT NULL,
 
     PRIMARY KEY (`id`)
@@ -212,13 +211,11 @@ CREATE TABLE `checkouts` (
 -- CreateTable
 CREATE TABLE `Banner` (
     `id` INTEGER NOT NULL AUTO_INCREMENT,
-    `created_at` DATETIME(3) NOT NULL,
+    `created_at` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
     `updated_at` DATETIME(3) NULL,
     `deleted_at` DATETIME(3) NULL,
-    `user_id` INTEGER NOT NULL,
-    `course_id` INTEGER NOT NULL,
-    `video` INTEGER NOT NULL,
-    `document` INTEGER NOT NULL,
+    `alt` VARCHAR(191) NOT NULL,
+    `src` VARCHAR(191) NOT NULL,
 
     PRIMARY KEY (`id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
@@ -248,7 +245,7 @@ ALTER TABLE `sessions` ADD CONSTRAINT `sessions_userId_fkey` FOREIGN KEY (`userI
 ALTER TABLE `sessions` ADD CONSTRAINT `sessions_courseId_fkey` FOREIGN KEY (`courseId`) REFERENCES `courses`(`id`) ON DELETE SET NULL ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE `sessions` ADD CONSTRAINT `sessions_moduleId_fkey` FOREIGN KEY (`moduleId`) REFERENCES `modules`(`id`) ON DELETE SET NULL ON UPDATE CASCADE;
+ALTER TABLE `sessions` ADD CONSTRAINT `sessions_lessonId_fkey` FOREIGN KEY (`lessonId`) REFERENCES `modules`(`id`) ON DELETE SET NULL ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE `assignments` ADD CONSTRAINT `assignments_courseId_fkey` FOREIGN KEY (`courseId`) REFERENCES `courses`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
@@ -269,13 +266,13 @@ ALTER TABLE `CompletionCourses` ADD CONSTRAINT `CompletionCourses_userId_fkey` F
 ALTER TABLE `CompletionCourses` ADD CONSTRAINT `CompletionCourses_courseId_fkey` FOREIGN KEY (`courseId`) REFERENCES `courses`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE `CompletionModules` ADD CONSTRAINT `CompletionModules_userId_fkey` FOREIGN KEY (`userId`) REFERENCES `users`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE `CompletionLessons` ADD CONSTRAINT `CompletionLessons_userId_fkey` FOREIGN KEY (`userId`) REFERENCES `users`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE `CompletionModules` ADD CONSTRAINT `CompletionModules_courseId_fkey` FOREIGN KEY (`courseId`) REFERENCES `courses`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE `CompletionLessons` ADD CONSTRAINT `CompletionLessons_courseId_fkey` FOREIGN KEY (`courseId`) REFERENCES `courses`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE `CompletionModules` ADD CONSTRAINT `CompletionModules_moduleId_fkey` FOREIGN KEY (`moduleId`) REFERENCES `modules`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE `CompletionLessons` ADD CONSTRAINT `CompletionLessons_lessonId_fkey` FOREIGN KEY (`lessonId`) REFERENCES `modules`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE `checkouts` ADD CONSTRAINT `checkouts_userId_fkey` FOREIGN KEY (`userId`) REFERENCES `users`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;

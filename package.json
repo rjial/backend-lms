@@ -6,7 +6,12 @@
   "scripts": {
     "build": "nest build",
     "start:dev": "nest start --watch",
-    "start:prod": "node ."
+    "start:prod": "node .",
+    "migrate": "prisma migrate dev",
+    "postmigrate": "npx @snapleet/seed --config prisma/seed/seed.config.ts sync"
+  },
+  "prisma": {
+    "seed": "tsx prisma/seed/seed.ts"
   },
   "keywords": [],
   "author": "",
@@ -28,10 +33,13 @@
   },
   "devDependencies": {
     "@nestjs/cli": "^10.3.2",
+    "@snaplet/copycat": "^5.0.0",
+    "@snaplet/seed": "^0.97.7",
     "@types/bcrypt": "^5.0.2",
     "@types/node": "^20.12.2",
     "@types/passport-jwt": "^4.0.1",
     "prisma": "5.11.0",
+    "tsx": "^4.9.0",
     "typescript": "^5.4.3"
   }
 }
