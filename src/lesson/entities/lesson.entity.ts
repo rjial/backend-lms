@@ -1,12 +1,23 @@
+import { ApiProperty } from "@nestjs/swagger"
+
 export class Lesson {
+    @ApiProperty()
     courseId: number
+    @ApiProperty()
     name: string
+    @ApiProperty()
     description: string
+    @ApiProperty()
     video: string
+    @ApiProperty()
     document: string
+    @ApiProperty()
     thumbnail: string
+    @ApiProperty()
     created_at: string
+    @ApiProperty()
     updated_at?: string
+    @ApiProperty()
     deleted_at?: string
 
     constructor(
