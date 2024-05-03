@@ -33,7 +33,7 @@ model User {
   image             String?
   verify            Boolean
   admin             Boolean
-  created_at        DateTime
+  created_at        DateTime            @default(now())
   updated_at        DateTime?
   deleted_at        DateTime?
   Review            Review[]
@@ -67,10 +67,10 @@ model Course {
   level             String
   user              User                @relation(fields: [user_id], references: [id])
   user_id           Int
-  created_at        DateTime
+  created_at        DateTime            @default(now())
   updated_at        DateTime?
   deleted_at        DateTime?
-  Module            Module[]
+  Module            Lesson[]
   Review            Review[]
   Session           Session[]
   Assignment        Assignment[]
@@ -82,7 +82,7 @@ model Course {
   @@map("courses")
 }
 
-model Module {
+model Lesson {
   id                Int                 @id @default(autoincrement())
   course            Course              @relation(fields: [courseId], references: [id])
   courseId          Int
@@ -92,7 +92,7 @@ model Module {
   document          String
   thumbnail         String
   paymentMode       String
-  created_at        DateTime
+  created_at        DateTime            @default(now())
   updated_at        DateTime?
   deleted_at        DateTime?
   Session           Session[]
@@ -106,8 +106,8 @@ model Quiz {
   id         Int       @id @default(autoincrement())
   data       String
   module_id  Int
-  module     Module    @relation(fields: [module_id], references: [id])
-  created_at DateTime
+  lesson     Lesson    @relation(fields: [module_id], references: [id])
+  created_at DateTime           @default(now())
   updated_at DateTime?
   deleted_at DateTime?
 
@@ -120,7 +120,7 @@ model Event {
   user_id     Int
   name        String
   description String
-  created_at  DateTime
+  created_at  DateTime            @default(now())
   updated_at  DateTime?
   deleted_at  DateTime?
 
@@ -135,7 +135,7 @@ model Review {
   userId      Int
   rating      Int
   description String
-  created_at  DateTime
+  created_at  DateTime            @default(now())
   updated_at  DateTime?
   deleted_at  DateTime?
 
@@ -153,13 +153,13 @@ model Session {
   secretKey     String
   expired       DateTime?
   lastActivated DateTime?
-  created_at    DateTime
+  created_at    DateTime            @default(now())
   updated_at    DateTime?
   deleted_at    DateTime?
   Course        Course?   @relation(fields: [courseId], references: [id])
   courseId      Int?
-  Module        Module?   @relation(fields: [moduleId], references: [id])
-  moduleId      Int?
+  Module        Lesson?   @relation(fields: [lessonId], references: [id])
+  lessonId      Int?
 
   @@map("sessions")
 }
@@ -172,7 +172,7 @@ model Assignment {
   user_id    Int
   document   String?
   video      String?
-  created_at DateTime
+  created_at DateTime           @default(now())
   updated_at DateTime?
   deleted_at DateTime?
 
@@ -185,7 +185,7 @@ model Category {
   description    String
   thumbnail      String
   CourseCategory CourseCategory[]
-  created_at     DateTime
+  created_at     DateTime           @default(now())
   updated_at     DateTime?
   deleted_at     DateTime?
 
@@ -198,7 +198,7 @@ model CourseCategory {
   courseId   Int
   category   Category  @relation(fields: [categoryId], references: [id])
   categoryId Int
-  created_at DateTime
+  created_at DateTime           @default(now())
   updated_at DateTime?
   deleted_at DateTime?
 
@@ -207,7 +207,7 @@ model CourseCategory {
 
 model CompletionCourses {
   id         Int       @id @default(autoincrement())
-  created_at DateTime
+  created_at DateTime           @default(now())
   updated_at DateTime?
   deleted_at DateTime?
   user       User      @relation(fields: [userId], references: [id])
@@ -219,15 +219,15 @@ model CompletionCourses {
 
 model CompletionModules {
   id         Int       @id @default(autoincrement())
-  created_at DateTime
+  created_at DateTime           @default(now())
   updated_at DateTime?
   deleted_at DateTime?
   user       User      @relation(fields: [userId], references: [id])
   userId     Int
   course     Course    @relation(fields: [courseId], references: [id])
   courseId   Int
-  module     Module    @relation(fields: [moduleId], references: [id])
-  moduleId   Int
+  lesson     Lesson    @relation(fields: [lessonId], references: [id])
+  lessonId   Int
   score      BigInt
 }
 
@@ -248,7 +248,7 @@ model Checkout {
 
 model Banner {
   id         Int       @id @default(autoincrement())
-  created_at DateTime
+  created_at DateTime           @default(now())
   updated_at DateTime?
   deleted_at DateTime?
   alt        String
