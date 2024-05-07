@@ -27,7 +27,6 @@ export class CourseService {
                 rating1: item.rating1,
                 price: item.price,
                 level: item.level,
-                user_id: item.user_id,
                 created_at: item.created_at,
                 updated_at: item.updated_at ?? undefined,
                 deleted_at: item.deleted_at ?? undefined
@@ -56,7 +55,6 @@ export class CourseService {
             rating1: item.rating1,
             price: item.price,
             level: item.level,
-            user_id: item.user_id,
             created_at: item.created_at,
             updated_at: item.updated_at ?? undefined,
             deleted_at: item.deleted_at ?? undefined

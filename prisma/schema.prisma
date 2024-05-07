@@ -40,7 +40,6 @@ model User {
   Review            Review[]
   Session           Session[]
   Checkout          Checkout[]
-  Course            Course[]
   Event             Event[]
   Assignment        Assignment[]
   CompletionCourses CompletionCourses[]
@@ -66,8 +65,8 @@ model Course {
   rating1           Int
   price             String
   level             String
-  user              User                @relation(fields: [user_id], references: [id])
-  user_id           Int
+  // user              User                @relation(fields: [user_id], references: [id])
+  // user_id           Int
   created_at        DateTime            @default(now())
   updated_at        DateTime?
   deleted_at        DateTime?

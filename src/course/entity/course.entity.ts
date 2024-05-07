@@ -35,8 +35,6 @@ export class CourseEntity {
     @ApiProperty()
     level: string
     @ApiProperty()
-    user_id: number
-    @ApiProperty()
     created_at: Date
     @ApiProperty()
     updated_at?: Date
